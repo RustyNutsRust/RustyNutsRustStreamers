@@ -2,6 +2,7 @@ const qs = require('querystring');
 const axios = require('axios');
 const { streamers } = require('./data/streamers.json');
 
+
 const { GAME_TITLE, STREAM_TITLE_FILTER} = process.env;
 
 exports.handler = async (event, context, callback) => {
@@ -30,8 +31,8 @@ exports.handler = async (event, context, callback) => {
 
   const streamerFilter = (streamer) => {
     let allowStreamer = true;
-    if (GAME_TITLE) {
-      allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
+    if (process.env.GAME_TITLE) {
+      allowStreamer = streamer.game_name === process.env.GAME_TITLE && allowStreamer;
     }
     if (STREAM_TITLE_FILTER) {
       allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
