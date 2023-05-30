@@ -30,8 +30,8 @@ exports.handler = async (event, context, callback) => {
 
   const streamerFilter = (streamer) => {
     let allowStreamer = true;
-    if ("The Legend of Zelda: Tears of the Kingdom") {
-      allowStreamer = streamer.game_name === "The Legend of Zelda: Tears of the Kingdom" && allowStreamer;
+    if (GAME_TITLE) {
+      allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
     }
     if (STREAM_TITLE_FILTER) {
       allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
