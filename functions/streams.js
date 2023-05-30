@@ -31,8 +31,8 @@ exports.handler = async (event, context, callback) => {
 
   const streamerFilter = (streamer) => {
     let allowStreamer = true;
-    if (process.env.GAME_TITLE) {
-      allowStreamer = streamer.game_name === process.env.GAME_TITLE && allowStreamer;
+    if ("Rust") {
+      allowStreamer = streamer.game_name === "Rust" && allowStreamer;
     }
     if (STREAM_TITLE_FILTER) {
       allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
