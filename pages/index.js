@@ -13,6 +13,7 @@ export default function Home() {
     fetch('/.netlify/functions/streams')
       .then(response => response.json())
       .then(streamsData => {
+        console.log('Stream data:', streamsData);
         const streamers = streamsData.streams;
 
         fetch('/.netlify/functions/users')
@@ -30,6 +31,8 @@ export default function Home() {
                 profile_image_url: user.profile_image_url,
               };
             });
+
+            console.log('Merged data:', mergedData);
 
             setData(mergedData);
             setIsLoading(false);
