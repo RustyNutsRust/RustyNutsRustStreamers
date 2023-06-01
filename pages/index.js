@@ -19,19 +19,14 @@ export default function Home() {
       .then(([streams, users]) => {
         let data = [];
 
-        if (users && users.users) {
-          // Merge users with streams based on user_name
-          data = streams.streams.map(streamer => {
-            const user = users.users.find(u => u.login === streamer.user_name);
-            return {
-              ...streamer,
-              ...user
-            };
-          });
-        } else {
-          data = streams.streams;
-        }
+        const mergeById = (a1, a2) =>
+          // Needed to match data from users endpoint with data from streams endpoint
+          a1.map(itm => ({
+            ...a2.find((item) => (item.display_name === itm.user_name) && item),
+            ...itm
+          }));
 
+        data = mergeById(streams.streams, users.users)
         setData(data);
         setIsLoading(false);
       })
