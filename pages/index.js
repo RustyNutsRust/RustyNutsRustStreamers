@@ -14,6 +14,8 @@ useEffect(() => {
 
     Promise.all(urls.map(url => fetch(url).then(r => r.json())))
       .then(([streams, users]) => {
+        console.log("Streams data:", streams);
+        console.log("Users data:", users);
         let data = [];
 
         const mergeById = (a1, a2) =>
