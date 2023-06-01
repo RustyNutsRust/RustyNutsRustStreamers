@@ -28,11 +28,11 @@ exports.handler = async (event, context, callback) => {
 
   const streamerFilter = (streamer) => {
     let allowStreamer = true;
-    if (GAME_TITLE) {
-      allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
+    if (process.env.GAME_TITLE) {
+      allowStreamer = streamer.game_name === process.env.GAME_TITLE && allowStreamer;
     }
-    if (STREAM_TITLE_FILTER) {
-      allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
+    if (process.env.STREAM_TITLE_FILTER) {
+      allowStreamer = streamer.title.toLowerCase().includes(process.env.STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
     }
     return allowStreamer;
   }

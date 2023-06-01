@@ -9,7 +9,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
+useEffect(() => {
     const urls = ['/.netlify/functions/streams', '/.netlify/functions/users'];
 
     Promise.all(urls.map(url => fetch(url).then(r => r.json())))
