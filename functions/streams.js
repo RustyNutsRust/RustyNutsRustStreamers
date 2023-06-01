@@ -28,22 +28,14 @@ exports.handler = async (event, context, callback) => {
 
   const streamerFilter = (streamer) => {
     let allowStreamer = true;
-    if (process.env.STREAM_TITLE_FILTER) {
-      allowStreamer = streamer.title.toLowerCase().includes(process.env.STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
+    if (GAME_TITLE) {
+      allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
     }
-    if (streamer.is_live) {
-      if (process.env.GAME_TITLE && allowStreamer) {
-        allowStreamer = streamer.game_name === process.env.GAME_TITLE;
-        if (!allowStreamer) {
-          streamer.category = 'Misc'; // Streamer is playing a different game
-        }
-      }
-    } else {
-      allowStreamer = process.env.SHOW_OFFLINE_STREAMERS === 'true'; // Set SHOW_OFFLINE_STREAMERS to 'true' in your .env file to show offline streamers
+    if (STREAM_TITLE_FILTER) {
+      allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
     }
     return allowStreamer;
-  };
-  
+  }
 
   filteredStreams = streams.filter(streamerFilter);
 
