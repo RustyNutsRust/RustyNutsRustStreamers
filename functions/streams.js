@@ -15,6 +15,7 @@ exports.handler = async (event, context, callback) => {
   const { data } = await axios.post(`https://id.twitch.tv/oauth2/token?${params}`);
   const url = `https://api.twitch.tv/helix/streams?user_login=${streamerList.join('&user_login=')}`;
 
+
   const {
     data: { data: streams },
   } = await axios.get(url,
@@ -25,19 +26,6 @@ exports.handler = async (event, context, callback) => {
       },
     }
   )
-
-  const streamerFilter = (streamer) => {
-    let allowStreamer = true;
-    if (process.env.GAME_TITLE) {
-      allowStreamer = streamer.game_name === process.env.GAME_TITLE && allowStreamer;
-    }
-    if (process.env.STREAM_TITLE_FILTER) {
-      allowStreamer = streamer.title.toLowerCase().includes(process.env.STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
-    }
-    return allowStreamer;
-  }
-
-  filteredStreams = streams.filter(streamerFilter);
 
   callback(null, {
     statusCode: 200,
