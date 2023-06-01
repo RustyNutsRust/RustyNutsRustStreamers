@@ -65,18 +65,17 @@ export default function Home() {
         <Header />
         <div className="content">
           <div className='stream-grid'>
-            {!isLoading && data
-              .map((streamer) =>
-                <Streamer
-                  key={streamer.user_name}
-                  game={streamer.game_name}
-                  started_at={streamer.started_at}
-                  title={streamer.title}
-                  user_name={streamer.user_name}
-                  thumbnail_url={streamer.thumbnail_url}
-                  profile_image_url={streamer.profile_image_url}
-                />
-              )}
+            {!isLoading && data.map(streamer => (
+              <Streamer
+                key={streamer.user_name}
+                game={streamer.game_name}
+                started_at={streamer.started_at}
+                title={streamer.title}
+                user_name={streamer.display_name}
+                thumbnail_url={streamer.thumbnail_url}
+                profile_image_url={streamer.profile_image_url}
+              />
+            ))}
           </div>
         </div>
         <Footer />
