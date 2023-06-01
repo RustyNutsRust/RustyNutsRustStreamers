@@ -32,7 +32,7 @@ export default function Home() {
               };
             });
 
-            console.log('Merged data:', mergedData);
+           
 
             setData(mergedData);
             setIsLoading(false);
