@@ -67,7 +67,7 @@ export default function Home() {
           <div className='stream-grid'>
             {!isLoading && data.map(streamer => (
               <Streamer
-                key={streamer.user_login}
+                key={streamer.user_name}
                 game={streamer.game_name}
                 started_at={streamer.started_at}
                 title={streamer.title}
