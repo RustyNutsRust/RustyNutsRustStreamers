@@ -14,27 +14,38 @@ export default function Home() {
       '/.netlify/functions/streams',
       '/.netlify/functions/users'
     ];
-
+  
     Promise.all(urls.map(url => fetch(url).then(r => r.json())))
       .then(([streams, users]) => {
         console.log("Streams data:", streams);
         console.log("Users data:", users);
-        let data = [];
-
-        const mergeById = (a1, a2) =>
-          // Needed to match data from users endpoint with data from streams endpoint
-          a1.map(itm => ({
-            ...a2.find((item) => (item.display_name === itm.user_name) && item),
-            ...itm
-          }));
-
-        data = mergeById(streams.streams, users.users)
-        setData(data);
+  
+        let mergedData = [];
+  
+        if (users && users.users) {
+          // Merge users with streams based on user_name
+          mergedData = streams.streams.map(streamer => {
+            const user = users.users.find(u => u.login === streamer.user_name);
+            return {
+              ...streamer,
+              ...user
+            };
+          });
+        } else {
+          mergedData = streams.streams;
+        }
+  
+        setData(mergedData);
         setIsLoading(false);
       })
       .catch(error => console.log(error));
+  
+    fetch('/.netlify/functions/streams')
+      .then(response => response.json())
+      .then(streams => console.log("Streams data:", streams))
+      .catch(error => console.log("Error fetching streams:", error));
   }, []);
-
+  
   return (
     <div className="container">
       <Head>
