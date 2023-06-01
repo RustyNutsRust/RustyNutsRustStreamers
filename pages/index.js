@@ -20,12 +20,13 @@ export default function Home() {
           .then(usersData => {
             const users = usersData.users;
 
-            // Merge streamers with users based on user_name
+            // Merge streamers with users based on user_login
             const mergedData = streamers.map(streamer => {
               const user = users.find(u => u.login === streamer.user_login);
               return {
                 ...streamer,
-                ...user
+                display_name: user.display_name,
+                profile_image_url: user.profile_image_url,
               };
             });
 
