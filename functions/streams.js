@@ -51,7 +51,7 @@ exports.handler = async (event, context, callback) => {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
-      Accept: 'application/json',
+      'Accept': 'application/json',
     },
     body: JSON.stringify({ streams: filteredStreams }),
   });
