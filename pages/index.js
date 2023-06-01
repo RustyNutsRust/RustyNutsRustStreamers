@@ -17,11 +17,11 @@ export default function Home() {
 
     Promise.all(urls.map(url => fetch(url).then(r => r.json())))
       .then(([streams, users]) => {
-        let mergedData = [];
+        let data = [];
 
         if (users && users.users) {
           // Merge users with streams based on user_name
-          mergedData = streams.streams.map(streamer => {
+          data = streams.streams.map(streamer => {
             const user = users.users.find(u => u.login === streamer.user_name);
             return {
               ...streamer,
@@ -29,10 +29,10 @@ export default function Home() {
             };
           });
         } else {
-          mergedData = streams.streams;
+          data = streams.streams;
         }
 
-        setData(mergedData);
+        setData(data);
         setIsLoading(false);
       })
       .catch(error => console.log(error));
