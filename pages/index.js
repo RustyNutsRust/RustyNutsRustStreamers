@@ -13,33 +13,28 @@ export default function Home() {
     fetch('/.netlify/functions/streams')
       .then(response => response.json())
       .then(streamsData => {
-        console.log('Stream data:', streamsData); // Logging stream data
+        console.log('Users data:', usersData);
         const streamers = streamsData.streams;
-  
+
         fetch('/.netlify/functions/users')
           .then(response => response.json())
           .then(usersData => {
-            console.log('User data:', usersData); // Logging user data
+            console.log('Users data:', usersData);
             const users = usersData.users;
-  
+
             // Merge streamers with users based on user_login
             const mergedData = streamers.map(streamer => {
               const user = users.find(u => u.login === streamer.user_login);
-              if (!user) {
-                console.log(`User not found for streamer: ${streamer.user_login}`);
-                return null;
-              }
               return {
                 ...streamer,
                 display_name: user.display_name,
                 profile_image_url: user.profile_image_url,
               };
             });
-  
-            console.log('Merged data:', mergedData); // Logging merged data
-  
-            const filteredData = mergedData.filter(item => item !== null);
-            setData(filteredData);
+
+            console.log('Merged data:', mergedData);
+
+            setData(mergedData);
             setIsLoading(false);
           })
           .catch(error => {
@@ -52,7 +47,6 @@ export default function Home() {
         setIsLoading(false);
       });
   }, []);
-  
 
   return (
     <div className="container">
