@@ -18,6 +18,7 @@ export default function Home() {
         fetch('/.netlify/functions/users')
           .then(response => response.json())
           .then(usersData => {
+            console.log('Users data:', usersData);
             const users = usersData.users;
 
             // Merge streamers with users based on user_login
