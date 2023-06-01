@@ -33,9 +33,15 @@ export default function Home() {
             setData(mergedData);
             setIsLoading(false);
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            console.log('Error fetching users:', error);
+            setIsLoading(false);
+          });
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log('Error fetching streams:', error);
+        setIsLoading(false);
+      });
   }, []);
 
   return (
