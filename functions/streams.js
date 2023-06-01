@@ -33,7 +33,7 @@ exports.handler = async (event, context, callback) => {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     },
-    body: JSON.stringify({ streams: filteredStreams }),
+    body: JSON.stringify({ streams }),
   });
   
 }
