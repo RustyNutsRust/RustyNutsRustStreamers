@@ -13,7 +13,7 @@ export default function Home() {
     fetch('/.netlify/functions/streams')
       .then(response => response.json())
       .then(streamsData => {
-        console.log('Users data:', streamsData);
+        console.log('Stream data:', streamsData);
         const streamers = streamsData.streams;
 
         fetch('/.netlify/functions/users')
