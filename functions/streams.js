@@ -8,24 +8,30 @@ exports.handler = async (event, context, callback) => {
     client_secret: process.env.TWITCH_CLIENT_SECRET,
     grant_type: 'client_credentials',
     scopes: '',
-  }
+  };
 
   const streamerList = streamers.length ? streamers : process.env.STREAMERS.split(',');
   const params = qs.stringify(opts);
   const { data } = await axios.post(`https://id.twitch.tv/oauth2/token?${params}`);
   const url = `https://api.twitch.tv/helix/streams?user_login=${streamerList.join('&user_login=')}`;
 
-
   const {
-    data: { data: streams },
-  } = await axios.get(url,
-    {
-      headers: {
-        'Client-ID': process.env.TWITCH_CLIENT_ID,
-        Authorization: `Bearer ${data.access_token}`,
-      },
-    }
-  )
+    data: { data: liveStreams },
+  } = await axios.get(url, {
+    headers: {
+      'Client-ID': process.env.TWITCH_CLIENT_ID,
+      Authorization: `Bearer ${data.access_token}`,
+    },
+  });
+
+  const offlineStreams = streamerList
+    .filter((streamer) => !liveStreams.some((liveStream) => liveStream.user_login === streamer))
+    .map((streamer) => ({
+      user_login: streamer,
+      type: 'offline',
+    }));
+
+  const allStreams = [...liveStreams, ...offlineStreams];
 
   callback(null, {
     statusCode: 200,
@@ -33,7 +39,6 @@ exports.handler = async (event, context, callback) => {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     },
-    body: JSON.stringify({ streams }),
+    body: JSON.stringify({ streams: allStreams }),
   });
-  
-}
+};
